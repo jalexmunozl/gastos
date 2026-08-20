@@ -1,0 +1,11 @@
+export function formatMoney(amount: number, currency: string): string {
+  try {
+    return new Intl.NumberFormat('es-ES', {
+      style: 'currency',
+      currency,
+      maximumFractionDigits: 2,
+    }).format(amount)
+  } catch {
+    return `${amount.toFixed(2)} ${currency}`
+  }
+}
