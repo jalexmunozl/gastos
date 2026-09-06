@@ -54,7 +54,12 @@ export function saveCurrency(currency: string): void {
 }
 
 export function parseImportedExpenses(json: string): Expense[] {
-  const parsed: unknown = JSON.parse(json)
+  let parsed: unknown
+  try {
+    parsed = JSON.parse(json)
+  } catch {
+    throw new Error('No se pudo leer el archivo JSON.')
+  }
   const list = Array.isArray(parsed)
     ? parsed
     : typeof parsed === 'object' && parsed !== null && Array.isArray((parsed as { expenses?: unknown }).expenses)
