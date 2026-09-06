@@ -10,7 +10,7 @@ import {
   shiftAnchor,
   toISODate,
 } from './lib/date'
-import { formatMoney } from './lib/format'
+import { formatMoney, formatPercent } from './lib/format'
 import {
   loadCurrency,
   loadExpenses,
@@ -103,7 +103,7 @@ export default function App() {
       .sort((a, b) => b.total - a.total)
   }, [visible])
 
-  const delta = previousTotal > 0 ? ((total - previousTotal) / previousTotal) * 100 : null
+  const delta = previousTotal > 0 ? (total - previousTotal) / previousTotal : null
 
   function upsert(values: Omit<Expense, 'id' | 'createdAt'>) {
     if (editing) {
@@ -257,7 +257,7 @@ export default function App() {
         <Card label="Promedio por día" value={formatMoney(average, currency)} />
         <Card
           label="vs. período anterior"
-          value={delta === null ? '—' : `${delta > 0 ? '+' : ''}${delta.toFixed(1)}%`}
+          value={delta === null ? '—' : formatPercent(delta)}
           tone={delta === null ? 'neutral' : delta > 0 ? 'up' : 'down'}
         />
       </div>
